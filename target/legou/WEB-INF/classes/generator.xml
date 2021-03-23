@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id=" DB2Tables" targetRuntime="MyBatis3">
+        <!--        去除生成文件注释-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--     配置数据库连接-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/onlineMarket"
+                        userId="root"
+                        password="123">
+            <!--设置可以获取tables remarks信息-->
+            <property name="useInformationSchema" value="true"/>
+            <!--设置可以获取remarks信息-->
+            <property name="remarks" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--        指定JavaBean生成的位置-->
+        <javaModelGenerator targetPackage="com.legou.entry" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!--        指定SQL映射文件生成的位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!--        指定dao接口生成的位置，mapper接口-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.legou.dao" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--        table指定每个表的生成策略-->
+        <!--        <table tableName="customers" domainObjectName="Customer" ></table>-->
+        <!--        <table tableName="administrators" domainObjectName="Administrator"></table>-->
+        <!--        <table tableName="admin_type" domainObjectName="AdminType"></table>-->
+        <table tableName="notice" domainObjectName="Notice"></table>
+        <!--        <table tableName="address" domainObjectName="Address" ></table>-->
+        <!--        <table tableName="buyCar" domainObjectName="BuyCar"></table>-->
+        <!--        <table tableName="orderInfo" domainObjectName="Order"></table>-->
+        <!--        <table tableName="comment" domainObjectName="Comment"></table>-->
+        <!--        <table tableName="goods" domainObjectName="Goods"></table>-->
+        <!--<table tableName="goods_first_type" domainObjectName="GoodsFirstType"></table>
+        <table tableName="goods_second_type" domainObjectName="GoodsSecondType"></table>
+        <table tableName="goods_three_type" domainObjectName="GoodsThreeType"></table>-->
+
+    </context>
+</generatorConfiguration>

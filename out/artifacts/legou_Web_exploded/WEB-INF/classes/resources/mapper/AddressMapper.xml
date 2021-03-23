@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.legou.dao.AddressMapper">
+    <resultMap id="BaseResultMap" type="com.legou.entry.Address">
+        <id column="a_id" jdbcType="CHAR" property="aId"/>
+        <result column="a_name" jdbcType="VARCHAR" property="aName"/>
+        <result column="a_phone" jdbcType="CHAR" property="aPhone"/>
+        <result column="a_province" jdbcType="VARCHAR" property="aProvince"/>
+        <result column="a_city" jdbcType="VARCHAR" property="aCity"/>
+        <result column="a_district" jdbcType="VARCHAR" property="aDistrict"/>
+        <result column="a_info" jdbcType="VARCHAR" property="aInfo"/>
+        <result column="a_status" jdbcType="INTEGER" property="aStatus"/>
+        <result column="a_addtime" jdbcType="VARCHAR" property="aAddtime"/>
+        <result column="c_id" jdbcType="CHAR" property="cId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    a_id, a_name, a_phone, a_province, a_city, a_district, a_info, a_status, a_addtime, 
+    c_id
+  </sql>
+    <select id="selectByExample" parameterType="com.legou.entry.AddressExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <!--    <if test="orderByClause != null">-->
+        order by a_status DESC , a_addtime ASC
+        <!--    </if>-->
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from address
+        where a_id = #{aId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from address
+    where a_id = #{aId,jdbcType=CHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.legou.entry.AddressExample">
+        delete from address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.legou.entry.Address">
+    insert into address (a_id, a_name, a_phone, 
+      a_province, a_city, a_district, 
+      a_info, a_status, a_addtime, 
+      c_id)
+    values (#{aId,jdbcType=CHAR}, #{aName,jdbcType=VARCHAR}, #{aPhone,jdbcType=CHAR}, 
+      #{aProvince,jdbcType=VARCHAR}, #{aCity,jdbcType=VARCHAR}, #{aDistrict,jdbcType=VARCHAR}, 
+      #{aInfo,jdbcType=VARCHAR}, #{aStatus,jdbcType=INTEGER}, #{aAddtime,jdbcType=VARCHAR}, 
+      #{cId,jdbcType=CHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.legou.entry.Address">
+        insert into address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="aId != null">
+                a_id,
+            </if>
+            <if test="aName != null">
+                a_name,
+            </if>
+            <if test="aPhone != null">
+                a_phone,
+            </if>
+            <if test="aProvince != null">
+                a_province,
+            </if>
+            <if test="aCity != null">
+                a_city,
+            </if>
+            <if test="aDistrict != null">
+                a_district,
+            </if>
+            <if test="aInfo != null">
+                a_info,
+            </if>
+            <if test="aStatus != null">
+                a_status,
+            </if>
+            <if test="aAddtime != null">
+                a_addtime,
+            </if>
+            <if test="cId != null">
+                c_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="aId != null">
+                #{aId,jdbcType=CHAR},
+            </if>
+            <if test="aName != null">
+                #{aName,jdbcType=VARCHAR},
+            </if>
+            <if test="aPhone != null">
+                #{aPhone,jdbcType=CHAR},
+            </if>
+            <if test="aProvince != null">
+                #{aProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="aCity != null">
+                #{aCity,jdbcType=VARCHAR},
+            </if>
+            <if test="aDistrict != null">
+                #{aDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="aInfo != null">
+                #{aInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="aStatus != null">
+                #{aStatus,jdbcType=INTEGER},
+            </if>
+            <if test="aAddtime != null">
+                #{aAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="cId != null">
+                #{cId,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.legou.entry.AddressExample" resultType="java.lang.Long">
+        select count(*) from address
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update address
+        <set>
+            <if test="record.aId != null">
+                a_id = #{record.aId,jdbcType=CHAR},
+            </if>
+            <if test="record.aName != null">
+                a_name = #{record.aName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.aPhone != null">
+                a_phone = #{record.aPhone,jdbcType=CHAR},
+            </if>
+            <if test="record.aProvince != null">
+                a_province = #{record.aProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="record.aCity != null">
+                a_city = #{record.aCity,jdbcType=VARCHAR},
+            </if>
+            <if test="record.aDistrict != null">
+                a_district = #{record.aDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="record.aInfo != null">
+                a_info = #{record.aInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.aStatus != null">
+                a_status = #{record.aStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.aAddtime != null">
+                a_addtime = #{record.aAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cId != null">
+                c_id = #{record.cId,jdbcType=CHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update address
+        set a_id = #{record.aId,jdbcType=CHAR},
+        a_name = #{record.aName,jdbcType=VARCHAR},
+        a_phone = #{record.aPhone,jdbcType=CHAR},
+        a_province = #{record.aProvince,jdbcType=VARCHAR},
+        a_city = #{record.aCity,jdbcType=VARCHAR},
+        a_district = #{record.aDistrict,jdbcType=VARCHAR},
+        a_info = #{record.aInfo,jdbcType=VARCHAR},
+        a_status = #{record.aStatus,jdbcType=INTEGER},
+        a_addtime = #{record.aAddtime,jdbcType=VARCHAR},
+        c_id = #{record.cId,jdbcType=CHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.legou.entry.Address">
+        update address
+        <set>
+            <if test="aName != null">
+                a_name = #{aName,jdbcType=VARCHAR},
+            </if>
+            <if test="aPhone != null">
+                a_phone = #{aPhone,jdbcType=CHAR},
+            </if>
+            <if test="aProvince != null">
+                a_province = #{aProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="aCity != null">
+                a_city = #{aCity,jdbcType=VARCHAR},
+            </if>
+            <if test="aDistrict != null">
+                a_district = #{aDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="aInfo != null">
+                a_info = #{aInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="aStatus != null">
+                a_status = #{aStatus,jdbcType=INTEGER},
+            </if>
+            <if test="aAddtime != null">
+                a_addtime = #{aAddtime,jdbcType=VARCHAR},
+            </if>
+            <if test="cId != null">
+                c_id = #{cId,jdbcType=CHAR},
+            </if>
+        </set>
+        where a_id = #{aId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.legou.entry.Address">
+    update address
+    set a_name = #{aName,jdbcType=VARCHAR},
+      a_phone = #{aPhone,jdbcType=CHAR},
+      a_province = #{aProvince,jdbcType=VARCHAR},
+      a_city = #{aCity,jdbcType=VARCHAR},
+      a_district = #{aDistrict,jdbcType=VARCHAR},
+      a_info = #{aInfo,jdbcType=VARCHAR},
+      a_status = #{aStatus,jdbcType=INTEGER},
+      a_addtime = #{aAddtime,jdbcType=VARCHAR},
+      c_id = #{cId,jdbcType=CHAR}
+    where a_id = #{aId,jdbcType=CHAR}
+  </update>
+    <!--  批量将a_status = 0-->
+    <update id="updateByPrimaryKeys" parameterType="java.util.List">
+        UPDATE address
+        set a_status = 0
+        WHERE a_id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.legou.dao.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.legou.entry.Order">
+        <id column="o_id" jdbcType="CHAR" property="oId"/>
+        <result column="c_id" jdbcType="CHAR" property="cId"/>
+        <result column="a_id" jdbcType="CHAR" property="aId"/>
+        <result column="g_ids" jdbcType="VARCHAR" property="gIds"/>
+        <result column="g_nums" jdbcType="VARCHAR" property="gNums"/>
+        <result column="total_money" jdbcType="REAL" property="totalMoney"/>
+        <result column="createTime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="alipay_id" jdbcType="VARCHAR" property="alipayId"/>
+        <result column="is_comment" jdbcType="VARCHAR" property="isComment"/>
+        <result column="pay_status" jdbcType="INTEGER" property="payStatus"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    o_id, c_id, a_id, g_ids, g_nums, total_money, createTime, alipay_id, is_comment, 
+    pay_status
+  </sql>
+    <!--  条件查询-->
+    <!--  条件查询SQL语句-->
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="oId != null">
+                o_id = #{oId}
+            </if>
+            <if test="alipayId != null">
+                and alipay_id = #{alipayId}
+            </if>
+            <if test="payStatus != null">
+                and pay_status = #{payStatus}
+            </if>
+        </where>
+    </sql>
+    <select id="selectByOrderSelective" parameterType="com.legou.entry.Order" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM orderinfo
+        <include refid="Base_Where_Clause"/>
+    </select>
+    <select id="selectByExample" parameterType="com.legou.entry.OrderExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <!--    <if test="orderByClause != null">-->
+        order by createTime DESC
+        <!--    </if>-->
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orderinfo
+        where o_id = #{oId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from orderinfo
+    where o_id = #{oId,jdbcType=CHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.legou.entry.OrderExample">
+        delete from orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.legou.entry.Order">
+    insert into orderinfo (o_id, c_id, a_id, g_ids, 
+      g_nums, total_money, createTime, 
+      alipay_id, is_comment, pay_status
+      )
+    values (#{oId,jdbcType=CHAR}, #{cId,jdbcType=CHAR}, #{aId,jdbcType=CHAR}, #{gIds,jdbcType=VARCHAR}, 
+      #{gNums,jdbcType=VARCHAR}, #{totalMoney,jdbcType=REAL}, #{createtime,jdbcType=VARCHAR}, 
+      #{alipayId,jdbcType=VARCHAR}, #{isComment,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.legou.entry.Order">
+        insert into orderinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oId != null">
+                o_id,
+            </if>
+            <if test="cId != null">
+                c_id,
+            </if>
+            <if test="aId != null">
+                a_id,
+            </if>
+            <if test="gIds != null">
+                g_ids,
+            </if>
+            <if test="gNums != null">
+                g_nums,
+            </if>
+            <if test="totalMoney != null">
+                total_money,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="alipayId != null">
+                alipay_id,
+            </if>
+            <if test="isComment != null">
+                is_comment,
+            </if>
+            <if test="payStatus != null">
+                pay_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oId != null">
+                #{oId,jdbcType=CHAR},
+            </if>
+            <if test="cId != null">
+                #{cId,jdbcType=CHAR},
+            </if>
+            <if test="aId != null">
+                #{aId,jdbcType=CHAR},
+            </if>
+            <if test="gIds != null">
+                #{gIds,jdbcType=VARCHAR},
+            </if>
+            <if test="gNums != null">
+                #{gNums,jdbcType=VARCHAR},
+            </if>
+            <if test="totalMoney != null">
+                #{totalMoney,jdbcType=REAL},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="alipayId != null">
+                #{alipayId,jdbcType=VARCHAR},
+            </if>
+            <if test="isComment != null">
+                #{isComment,jdbcType=VARCHAR},
+            </if>
+            <if test="payStatus != null">
+                #{payStatus,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.legou.entry.OrderExample" resultType="java.lang.Long">
+        select count(*) from orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update orderinfo
+        <set>
+            <if test="record.oId != null">
+                o_id = #{record.oId,jdbcType=CHAR},
+            </if>
+            <if test="record.cId != null">
+                c_id = #{record.cId,jdbcType=CHAR},
+            </if>
+            <if test="record.aId != null">
+                a_id = #{record.aId,jdbcType=CHAR},
+            </if>
+            <if test="record.gIds != null">
+                g_ids = #{record.gIds,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gNums != null">
+                g_nums = #{record.gNums,jdbcType=VARCHAR},
+            </if>
+            <if test="record.totalMoney != null">
+                total_money = #{record.totalMoney,jdbcType=REAL},
+            </if>
+            <if test="record.createtime != null">
+                createTime = #{record.createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.alipayId != null">
+                alipay_id = #{record.alipayId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isComment != null">
+                is_comment = #{record.isComment,jdbcType=VARCHAR},
+            </if>
+            <if test="record.payStatus != null">
+                pay_status = #{record.payStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update orderinfo
+        set o_id = #{record.oId,jdbcType=CHAR},
+        c_id = #{record.cId,jdbcType=CHAR},
+        a_id = #{record.aId,jdbcType=CHAR},
+        g_ids = #{record.gIds,jdbcType=VARCHAR},
+        g_nums = #{record.gNums,jdbcType=VARCHAR},
+        total_money = #{record.totalMoney,jdbcType=REAL},
+        createTime = #{record.createtime,jdbcType=VARCHAR},
+        alipay_id = #{record.alipayId,jdbcType=VARCHAR},
+        is_comment = #{record.isComment,jdbcType=VARCHAR},
+        pay_status = #{record.payStatus,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.legou.entry.Order">
+        update orderinfo
+        <set>
+            <if test="cId != null">
+                c_id = #{cId,jdbcType=CHAR},
+            </if>
+            <if test="aId != null">
+                a_id = #{aId,jdbcType=CHAR},
+            </if>
+            <if test="gIds != null">
+                g_ids = #{gIds,jdbcType=VARCHAR},
+            </if>
+            <if test="gNums != null">
+                g_nums = #{gNums,jdbcType=VARCHAR},
+            </if>
+            <if test="totalMoney != null">
+                total_money = #{totalMoney,jdbcType=REAL},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="alipayId != null">
+                alipay_id = #{alipayId,jdbcType=VARCHAR},
+            </if>
+            <if test="isComment != null">
+                is_comment = #{isComment,jdbcType=VARCHAR},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        where o_id = #{oId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.legou.entry.Order">
+    update orderinfo
+    set c_id = #{cId,jdbcType=CHAR},
+      a_id = #{aId,jdbcType=CHAR},
+      g_ids = #{gIds,jdbcType=VARCHAR},
+      g_nums = #{gNums,jdbcType=VARCHAR},
+      total_money = #{totalMoney,jdbcType=REAL},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      alipay_id = #{alipayId,jdbcType=VARCHAR},
+      is_comment = #{isComment,jdbcType=VARCHAR},
+      pay_status = #{payStatus,jdbcType=INTEGER}
+    where o_id = #{oId,jdbcType=CHAR}
+  </update>
+</mapper>

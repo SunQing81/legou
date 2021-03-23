@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.legou.dao.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.legou.entry.Comment">
+        <id column="comment_id" jdbcType="CHAR" property="commentId"/>
+        <result column="comment_content" jdbcType="VARCHAR" property="commentContent"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="createTime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="o_id" jdbcType="CHAR" property="oId"/>
+        <result column="g_id" jdbcType="CHAR" property="gId"/>
+        <result column="c_id" jdbcType="CHAR" property="cId"/>
+    </resultMap>
+    <!--  查询评价时同时查询用户名-->
+    <resultMap id="WithCustomerResultMap" type="com.legou.entry.Comment">
+        <id column="comment_id" jdbcType="CHAR" property="commentId"/>
+        <result column="comment_content" jdbcType="VARCHAR" property="commentContent"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="createTime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="o_id" jdbcType="CHAR" property="oId"/>
+        <result column="g_id" jdbcType="CHAR" property="gId"/>
+        <result column="c_id" jdbcType="CHAR" property="cId"/>
+        <association property="customer" javaType="com.legou.entry.Customer">
+            <id column="c_id" jdbcType="CHAR" property="cId"/>
+            <result column="c_name" jdbcType="VARCHAR" property="cName"/>
+            <result column="c_image" jdbcType="VARCHAR" property="cImage"/>
+        </association>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    comment_id, comment_content, score, createTime, o_id, g_id, c_id
+  </sql>
+    <sql id="WithCustomer_Column_List">
+    c1.comment_id, c1.comment_content, c1.score, c1.createTime, c1.o_id, c1.g_id,
+    c2.c_id,c2.c_name,c2.c_image
+  </sql>
+    <!--  查询评价时同时查询用户名-->
+    <select id="selectByExampleWithCustomer" parameterType="com.legou.entry.CommentExample"
+            resultMap="WithCustomerResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithCustomer_Column_List"/>
+        from comment c1
+        left join customers c2 on c1.c_id = c2.c_id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        order by c1.createTime
+    </select>
+    <select id="selectByExample" parameterType="com.legou.entry.CommentExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from comment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        where comment_id = #{commentId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=CHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.legou.entry.CommentExample">
+        delete from comment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.legou.entry.Comment">
+    insert into comment (comment_id, comment_content, score, 
+      createTime, o_id, g_id, c_id
+      )
+    values (#{commentId,jdbcType=CHAR}, #{commentContent,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=VARCHAR}, #{oId,jdbcType=CHAR}, #{gId,jdbcType=CHAR}, #{cId,jdbcType=CHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.legou.entry.Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                comment_id,
+            </if>
+            <if test="commentContent != null">
+                comment_content,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="oId != null">
+                o_id,
+            </if>
+            <if test="gId != null">
+                g_id,
+            </if>
+            <if test="cId != null">
+                c_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                #{commentId,jdbcType=CHAR},
+            </if>
+            <if test="commentContent != null">
+                #{commentContent,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="oId != null">
+                #{oId,jdbcType=CHAR},
+            </if>
+            <if test="gId != null">
+                #{gId,jdbcType=CHAR},
+            </if>
+            <if test="cId != null">
+                #{cId,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.legou.entry.CommentExample" resultType="java.lang.Long">
+        select count(*) from comment
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update comment
+        <set>
+            <if test="record.commentId != null">
+                comment_id = #{record.commentId,jdbcType=CHAR},
+            </if>
+            <if test="record.commentContent != null">
+                comment_content = #{record.commentContent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.score != null">
+                score = #{record.score,jdbcType=INTEGER},
+            </if>
+            <if test="record.createtime != null">
+                createTime = #{record.createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.oId != null">
+                o_id = #{record.oId,jdbcType=CHAR},
+            </if>
+            <if test="record.gId != null">
+                g_id = #{record.gId,jdbcType=CHAR},
+            </if>
+            <if test="record.cId != null">
+                c_id = #{record.cId,jdbcType=CHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update comment
+        set comment_id = #{record.commentId,jdbcType=CHAR},
+        comment_content = #{record.commentContent,jdbcType=VARCHAR},
+        score = #{record.score,jdbcType=INTEGER},
+        createTime = #{record.createtime,jdbcType=VARCHAR},
+        o_id = #{record.oId,jdbcType=CHAR},
+        g_id = #{record.gId,jdbcType=CHAR},
+        c_id = #{record.cId,jdbcType=CHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.legou.entry.Comment">
+        update comment
+        <set>
+            <if test="commentContent != null">
+                comment_content = #{commentContent,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="oId != null">
+                o_id = #{oId,jdbcType=CHAR},
+            </if>
+            <if test="gId != null">
+                g_id = #{gId,jdbcType=CHAR},
+            </if>
+            <if test="cId != null">
+                c_id = #{cId,jdbcType=CHAR},
+            </if>
+        </set>
+        where comment_id = #{commentId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.legou.entry.Comment">
+    update comment
+    set comment_content = #{commentContent,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      o_id = #{oId,jdbcType=CHAR},
+      g_id = #{gId,jdbcType=CHAR},
+      c_id = #{cId,jdbcType=CHAR}
+    where comment_id = #{commentId,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.legou.dao.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.legou.entry.Goods">
+        <id column="g_id" jdbcType="CHAR" property="gId"/>
+        <result column="g_detailInfo" jdbcType="VARCHAR" property="gDetailinfo"/>
+        <result column="g_price" jdbcType="REAL" property="gPrice"/>
+        <result column="g_creatTime" jdbcType="VARCHAR" property="gCreattime"/>
+        <result column="g_endTime" jdbcType="VARCHAR" property="gEndtime"/>
+        <result column="g_num" jdbcType="INTEGER" property="gNum"/>
+        <result column="g_image" jdbcType="VARCHAR" property="gImage"/>
+        <result column="g_clickNum" jdbcType="INTEGER" property="gClicknum"/>
+        <result column="gft_id" jdbcType="INTEGER" property="gftId"/>
+        <result column="gst_id" jdbcType="INTEGER" property="gstId"/>
+        <result column="gt_id" jdbcType="INTEGER" property="gtId"/>
+    </resultMap>
+    <!--  查询商品的同时查询商品的分类 WithTypeResultMap-->
+    <resultMap id="WithTypeResultMap" type="com.legou.entry.Goods">
+        <id column="g_id" jdbcType="CHAR" property="gId"/>
+        <result column="g_detailInfo" jdbcType="VARCHAR" property="gDetailinfo"/>
+        <result column="g_price" jdbcType="REAL" property="gPrice"/>
+        <result column="g_creatTime" jdbcType="VARCHAR" property="gCreattime"/>
+        <result column="g_endTime" jdbcType="VARCHAR" property="gEndtime"/>
+        <result column="g_num" jdbcType="INTEGER" property="gNum"/>
+        <result column="g_image" jdbcType="VARCHAR" property="gImage"/>
+        <result column="g_clickNum" jdbcType="INTEGER" property="gClicknum"/>
+        <result column="gft_id" jdbcType="INTEGER" property="gftId"/>
+        <result column="gst_id" jdbcType="INTEGER" property="gstId"/>
+        <result column="gt_id" jdbcType="INTEGER" property="gtId"/>
+        <association property="goodsFirstType" javaType="com.legou.entry.GoodsFirstType">
+            <id column="gft_id" jdbcType="CHAR" property="gftId"/>
+            <result column="gft_name" jdbcType="VARCHAR" property="gftName"/>
+        </association>
+        <association property="goodsSecondType" javaType="com.legou.entry.GoodsSecondType">
+            <id column="gst_id" jdbcType="CHAR" property="gstId"/>
+            <result column="gst_name" jdbcType="VARCHAR" property="gstName"/>
+        </association>
+        <association property="goodsThreeType" javaType="com.legou.entry.GoodsThreeType">
+            <id column="gt_id" jdbcType="CHAR" property="gtId"/>
+            <result column="gt_name" jdbcType="VARCHAR" property="gtName"/>
+        </association>
+    </resultMap>
+    <!--  条件查询SQL语句-->
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="goods.gId != null">
+                g.g_id = #{goods.gId}
+            </if>
+            <if test="goods.gDetailinfo != null">
+                and g.g_detailInfo like "%"#{goods.gDetailinfo}"%"
+            </if>
+            <if test="goods.gftId != null">
+                and g.gft_id = #{goods.gftId}
+            </if>
+            <if test="goods.gstId != null">
+                and g.gst_id = #{goods.gstId}
+            </if>
+            <if test="goods.gtId != null">
+                and g.gt_id = #{goods.gtId}
+            </if>
+        </where>
+    </sql>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    g_id, g_detailInfo, g_price, g_creatTime, g_endTime, g_num, g_image, g_clickNum,
+    gft_id, gst_id, gt_id
+  </sql>
+
+    <sql id="WithType_Column_List">
+    g.g_id, g.g_detailInfo, g.g_price, g.g_creatTime, g.g_endTime, g.g_num, g.g_image, g.g_clickNum,
+    gft.gft_id, gft.gft_name, gst.gst_id,gst.gst_name,gt.gt_id ,gt.gt_name
+  </sql>
+    <!--  获取商品信息用于修改-->
+    <select id="getGoodsWithTypeByGid" parameterType="java.lang.String" resultMap="WithTypeResultMap">
+        select
+        <include refid="WithType_Column_List"/>
+        from goods g
+        LEFT JOIN goods_first_type gft on g.gft_id = gft.gft_id
+        LEFT JOIN goods_second_type gst on g.gst_id = gst.gst_id
+        LEFT JOIN goods_three_type gt on g.gt_id = gt.gt_id
+        where g_id = #{gId,jdbcType=CHAR}
+    </select>
+    <!--  条件查询
+      /*对于${sort}的变量，Mybatis会将其视作直接变量，不会再给其加上引号
+        假如传入参数是count,desc  就是order by count desc
+        对于这种#{sort:VARCHAR} 的变量，Mybatis会将其视为字符，给变量值加上引号
+        假如传入参数是count,desc  就是order by 'count' 'desc'*/
+    -->
+    <select id="selectByGoods" parameterType="map" resultMap="WithTypeResultMap">
+        select
+        <include refid="WithType_Column_List"/>
+        FROM goods g
+        LEFT JOIN goods_first_type gft on g.gft_id = gft.gft_id
+        LEFT JOIN goods_second_type gst on g.gst_id = gst.gst_id
+        LEFT JOIN goods_three_type gt on g.gt_id = gt.gt_id
+        <include refid="Base_Where_Clause"/>
+        <if test="sort != null">
+            order by ${sort}
+        </if>
+    </select>
+    <!--  查询商品的同时查询商品的分类-->
+    <select id="selectGoodsWithType" resultMap="WithTypeResultMap">
+        select
+        <include refid="WithType_Column_List"/>
+        FROM goods g
+        LEFT JOIN goods_first_type gft on g.gft_id = gft.gft_id
+        LEFT JOIN goods_second_type gst on g.gst_id = gst.gst_id
+        LEFT JOIN goods_three_type gt on g.gt_id = gt.gt_id
+    </select>
+    <!--  根据点击量获取热门商品-->
+    <select id="selectBygclickNum" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from goods
+        order by g_clickNum DESC
+    </select>
+    <!--搜索框根据查找内容查找商品-->
+    <select id="selectGoodsBysearchContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from goods
+        WHERE g_detailInfo LIKE CONCAT(CONCAT('%', #{searchContent}), '%')
+    </select>
+    <!--  根据价格-->
+    <select id="selectByPrice" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from goods
+        order by g_price
+        limit 12
+    </select>
+    <select id="selectByExample" parameterType="com.legou.entry.GoodsExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where g_id = #{gId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from goods
+    where g_id = #{gId,jdbcType=CHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.legou.entry.GoodsExample">
+        delete from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.legou.entry.Goods">
+    insert into goods (g_id, g_detailInfo, g_price, 
+      g_creatTime, g_endTime, g_num, 
+      g_image, g_clickNum, gft_id, 
+      gst_id, gt_id)
+    values (#{gId,jdbcType=CHAR}, #{gDetailinfo,jdbcType=VARCHAR}, #{gPrice,jdbcType=REAL}, 
+      #{gCreattime,jdbcType=VARCHAR}, #{gEndtime,jdbcType=VARCHAR}, #{gNum,jdbcType=INTEGER}, 
+      #{gImage,jdbcType=VARCHAR}, #{gClicknum,jdbcType=INTEGER}, #{gftId,jdbcType=INTEGER}, 
+      #{gstId,jdbcType=INTEGER}, #{gtId,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.legou.entry.Goods">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gId != null">
+                g_id,
+            </if>
+            <if test="gDetailinfo != null">
+                g_detailInfo,
+            </if>
+            <if test="gPrice != null">
+                g_price,
+            </if>
+            <if test="gCreattime != null">
+                g_creatTime,
+            </if>
+            <if test="gEndtime != null">
+                g_endTime,
+            </if>
+            <if test="gNum != null">
+                g_num,
+            </if>
+            <if test="gImage != null">
+                g_image,
+            </if>
+            <if test="gClicknum != null">
+                g_clickNum,
+            </if>
+            <if test="gftId != null">
+                gft_id,
+            </if>
+            <if test="gstId != null">
+                gst_id,
+            </if>
+            <if test="gtId != null">
+                gt_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gId != null">
+                #{gId,jdbcType=CHAR},
+            </if>
+            <if test="gDetailinfo != null">
+                #{gDetailinfo,jdbcType=VARCHAR},
+            </if>
+            <if test="gPrice != null">
+                #{gPrice,jdbcType=REAL},
+            </if>
+            <if test="gCreattime != null">
+                #{gCreattime,jdbcType=VARCHAR},
+            </if>
+            <if test="gEndtime != null">
+                #{gEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="gNum != null">
+                #{gNum,jdbcType=INTEGER},
+            </if>
+            <if test="gImage != null">
+                #{gImage,jdbcType=VARCHAR},
+            </if>
+            <if test="gClicknum != null">
+                #{gClicknum,jdbcType=INTEGER},
+            </if>
+            <if test="gftId != null">
+                #{gftId,jdbcType=INTEGER},
+            </if>
+            <if test="gstId != null">
+                #{gstId,jdbcType=INTEGER},
+            </if>
+            <if test="gtId != null">
+                #{gtId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.legou.entry.GoodsExample" resultType="java.lang.Long">
+        select count(*) from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update goods
+        <set>
+            <if test="record.gId != null">
+                g_id = #{record.gId,jdbcType=CHAR},
+            </if>
+            <if test="record.gDetailinfo != null">
+                g_detailInfo = #{record.gDetailinfo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gPrice != null">
+                g_price = #{record.gPrice,jdbcType=REAL},
+            </if>
+            <if test="record.gCreattime != null">
+                g_creatTime = #{record.gCreattime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gEndtime != null">
+                g_endTime = #{record.gEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gNum != null">
+                g_num = #{record.gNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.gImage != null">
+                g_image = #{record.gImage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.gClicknum != null">
+                g_clickNum = #{record.gClicknum,jdbcType=INTEGER},
+            </if>
+            <if test="record.gftId != null">
+                gft_id = #{record.gftId,jdbcType=INTEGER},
+            </if>
+            <if test="record.gstId != null">
+                gst_id = #{record.gstId,jdbcType=INTEGER},
+            </if>
+            <if test="record.gtId != null">
+                gt_id = #{record.gtId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update goods
+        set g_id = #{record.gId,jdbcType=CHAR},
+        g_detailInfo = #{record.gDetailinfo,jdbcType=VARCHAR},
+        g_price = #{record.gPrice,jdbcType=REAL},
+        g_creatTime = #{record.gCreattime,jdbcType=VARCHAR},
+        g_endTime = #{record.gEndtime,jdbcType=VARCHAR},
+        g_num = #{record.gNum,jdbcType=INTEGER},
+        g_image = #{record.gImage,jdbcType=VARCHAR},
+        g_clickNum = #{record.gClicknum,jdbcType=INTEGER},
+        gft_id = #{record.gftId,jdbcType=INTEGER},
+        gst_id = #{record.gstId,jdbcType=INTEGER},
+        gt_id = #{record.gtId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.legou.entry.Goods">
+        update goods
+        <set>
+            <if test="gDetailinfo != null">
+                g_detailInfo = #{gDetailinfo,jdbcType=VARCHAR},
+            </if>
+            <if test="gPrice != null">
+                g_price = #{gPrice,jdbcType=REAL},
+            </if>
+            <if test="gCreattime != null">
+                g_creatTime = #{gCreattime,jdbcType=VARCHAR},
+            </if>
+            <if test="gEndtime != null">
+                g_endTime = #{gEndtime,jdbcType=VARCHAR},
+            </if>
+            <if test="gNum != null">
+                g_num = #{gNum,jdbcType=INTEGER},
+            </if>
+            <if test="gImage != null">
+                g_image = #{gImage,jdbcType=VARCHAR},
+            </if>
+            <if test="gClicknum != null">
+                g_clickNum = #{gClicknum,jdbcType=INTEGER},
+            </if>
+            <if test="gftId != null">
+                gft_id = #{gftId,jdbcType=INTEGER},
+            </if>
+            <if test="gstId != null">
+                gst_id = #{gstId,jdbcType=INTEGER},
+            </if>
+            <if test="gtId != null">
+                gt_id = #{gtId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where g_id = #{gId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.legou.entry.Goods">
+    update goods
+    set g_detailInfo = #{gDetailinfo,jdbcType=VARCHAR},
+      g_price = #{gPrice,jdbcType=REAL},
+      g_creatTime = #{gCreattime,jdbcType=VARCHAR},
+      g_endTime = #{gEndtime,jdbcType=VARCHAR},
+      g_num = #{gNum,jdbcType=INTEGER},
+      g_image = #{gImage,jdbcType=VARCHAR},
+      g_clickNum = #{gClicknum,jdbcType=INTEGER},
+      gft_id = #{gftId,jdbcType=INTEGER},
+      gst_id = #{gstId,jdbcType=INTEGER},
+      gt_id = #{gtId,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=CHAR}
+  </update>
+    <!--  商品点击量+1-->
+    <update id="updateGclickNum" parameterType="java.lang.String">
+    update goods
+    set
+      g_clickNum = g_clickNum+1
+    where g_id = #{gId,jdbcType=CHAR}
+  </update>
+</mapper>
