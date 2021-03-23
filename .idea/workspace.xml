@@ -238,7 +238,7 @@
       <workItem from="1616496846800" duration="1562000" />
       <workItem from="1616499959603" duration="78000" />
       <workItem from="1616500064980" duration="1233000" />
-      <workItem from="1616501330875" duration="452000" />
+      <workItem from="1616501330875" duration="521000" />
     </task>
     <task id="LOCAL-00001" summary="乐购网上商城">
       <created>1616497194175</created>
@@ -261,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616501686990</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="添加tomcat后">
+      <created>1616501823581</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1616501823581</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +306,8 @@
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
     <MESSAGE value="乐购网上商城" />
-    <option name="LAST_COMMIT_MESSAGE" value="乐购网上商城" />
+    <MESSAGE value="添加tomcat后" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加tomcat后" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
