@@ -10,7 +10,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86ccabf0-fed2-4b62-9ef5-19c187f7d14a" name="Default Changelist" comment="乐购网上商城" />
+    <list default="true" id="86ccabf0-fed2-4b62-9ef5-19c187f7d14a" name="Default Changelist" comment="乐购网上商城">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legou/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legou/controller/CustomerController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +63,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -72,6 +75,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="tomcat9" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="tomcat9" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -239,6 +253,8 @@
       <workItem from="1616499959603" duration="78000" />
       <workItem from="1616500064980" duration="1233000" />
       <workItem from="1616501330875" duration="521000" />
+      <workItem from="1616501884801" duration="1005000" />
+      <workItem from="1616505874722" duration="551000" />
     </task>
     <task id="LOCAL-00001" summary="乐购网上商城">
       <created>1616497194175</created>
@@ -268,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616501823581</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加tomcat再次清理缓存">
+      <created>1616501924057</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1616501924057</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,7 +330,8 @@
     </ignored-roots>
     <MESSAGE value="乐购网上商城" />
     <MESSAGE value="添加tomcat后" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加tomcat后" />
+    <MESSAGE value="添加tomcat再次清理缓存" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加tomcat再次清理缓存" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -33,7 +33,6 @@ public class CustomerController {
 
     /**
      * 修改头像
-     *
      * @param cId
      * @param pictureFile
      * @param request
@@ -80,13 +79,9 @@ public class CustomerController {
     @RequestMapping(value = "/selectCustomerBytiaojian", method = RequestMethod.GET)
     @ResponseBody
     public Msg detailSelectEmployee(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Customer customer) {
-//        administrator.setAdminGender(Integer.);
-//        administrator.setAdminTypeId(2);
-//        System.out.println(administrator);
         PageHelper.startPage(pn, 5);
 //        startPage后面紧跟的这个查询就是一个分页查询
         List<Customer> list = customerService.selectCustomerBytiaojian(customer);
-//        System.out.println(list);
 //        使用pageInfo包装查询后的结果，只需要将pageInfo交给页面就行
 //        封装了详细的分页信息，包括有我们查询出来的数据,传入连续显示的页数
         PageInfo pageInfo = new PageInfo(list, 5);
